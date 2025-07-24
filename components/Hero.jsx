@@ -1,6 +1,35 @@
-import React from "react";
+import { useGSAP } from "@gsap/react";
+import { SplitText } from "gsap/all";
+import gsap from "gsap";
 
 const Hero = () => {
+  useGSAP(() => {
+    const heroSplit = new SplitText(".title", {
+      type: "chars, words", // kita split dia menjadi chars dan words artinya per huruf
+    });
+    const paragraphSPlit = new SplitText(".subtitle", {
+      type: "lines", // kita split dia menjadi lines artinya per baris
+    });
+
+    heroSplit.chars.forEach((char) => char.classList.add("text-gradient"));
+
+    gsap.from(heroSplit.chars, {
+      yPercent: 100,
+      duration: 1.8,
+      ease: "expo.out",
+      stagger: 0.06, // jeda antar komponen dalam menjalankan animasi
+    });
+
+    gsap.from(paragraphSPlit.lines, {
+      opacity: 0,
+      yPercent: 100,
+      duration1: 1.8,
+      ease: "expo.out",
+      stagger: 0.06, // jeda antar komponen dalam menjalankan animasi
+      delay: 1, // jeda sebelum menjalankan animasi
+    });
+  }, []);
+
   return (
     <>
       <section id="hero" className="noisy">
