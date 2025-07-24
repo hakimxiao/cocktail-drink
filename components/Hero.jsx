@@ -4,6 +4,7 @@ import gsap from "gsap";
 
 const Hero = () => {
   useGSAP(() => {
+    // TEXT ANIMATION -- START
     const heroSplit = new SplitText(".title", {
       type: "chars, words", // kita split dia menjadi chars dan words artinya per huruf
     });
@@ -28,6 +29,21 @@ const Hero = () => {
       stagger: 0.06, // jeda antar komponen dalam menjalankan animasi
       delay: 1, // jeda sebelum menjalankan animasi
     });
+    // TEXT ANIMATION -- END
+
+    // LEAF ANIMATION -- START
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: true, // adalah untuk membuat animasi scrollable terasa natural
+        },
+      })
+      .to(".right-leaf", { y: 200 }, 0)
+      .to(".left-leaf", { y: -200 }, 0);
+    // LEAF ANIMATION -- END
   }, []);
 
   return (
