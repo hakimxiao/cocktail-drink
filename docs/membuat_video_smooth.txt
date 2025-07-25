@@ -1,0 +1,5 @@
+Agar vide dapat kita buat dengan smooth kita akan mencaacah frame nya lebih haalus lagi karena fdefault nya sebuah video 
+mempunyai frame per detik dan kita mau lebih komplex lagi. SOLUSINYA DENGAN ffmpeg 
+    1. Pindahkan terminal ke dalam folder video kemudian 
+    2. jalankan perintah ini : ffmpeg -i input.mp4 -vf scale=960:-1 -movflags faststart -vcodec libx264 -crf 20 -g 1 -pix_fmt yuv420p output.mp4
+    3. input.mp4 : adalah video yang akan diproses || output.mp4 : adalah file baru hasil proses

@@ -1,0 +1,85 @@
+📄 Dokumentasi GSAP Animation pada Elemen Video
+
+🎯 Tujuan
+Menganimasikan elemen <video> agar:
+- Diputar seiring dengan scroll pengguna.
+- Dipin (tetap berada di tempat) selama durasi scroll tertentu.
+- Animasi dimulai dan berakhir sesuai ukuran viewport (respon terhadap isMobile).
+
+🧩 Struktur Dasar Video di JSX
+
+<video
+  ref={videoRef}
+  src="videos/output.mp4"
+  muted
+  playsInline
+  preload="auto"
+/>
+
+Penjelasan Atribut:
+| Atribut        | Penjelasan |
+|----------------|-----------|
+| ref={videoRef} | Menghubungkan elemen video dengan referensi React (useRef) untuk diakses oleh GSAP. |
+| src="..."      | Lokasi file video. |
+| muted          | Video dibisukan (umumnya wajib untuk autoplay di browser modern). |
+| playsInline    | Agar video tidak masuk ke mode fullscreen otomatis saat diputar di perangkat mobile. |
+| preload="auto" | Mengarahkan browser untuk memuat video segera (agar metadata seperti durasi tersedia). |
+
+⚙️ Langkah-langkah GSAP untuk Video
+
+✅ 1. Buat Media Query Deteksi Mobile
+const isMobile = useMediaQuery({ maxWidth: 767 });
+
+✅ 2. Buat Nilai Start dan End ScrollTrigger Berdasarkan isMobile
+const startValue = isMobile ? "top 50%" : "center 60%";
+const endValue = isMobile ? "120% top" : "bottom top";
+
+Arti Format "triggerPoint viewportPoint":
+- "top 50%" = ketika bagian atas elemen video menyentuh 50% dari viewport.
+- "bottom top" = ketika bagian bawah video menyentuh bagian atas viewport.
+
+✅ 3. Inisialisasi Timeline GSAP untuk Video
+let tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: "video",
+    start: startValue,
+    end: endValue,
+    scrub: true,
+    pin: true,
+  },
+});
+
+Penjelasan scrollTrigger Properties:
+| Properti   | Fungsi |
+|------------|--------|
+| trigger    | Elemen pemicu scroll (yaitu tag <video>). |
+| start      | Titik awal scroll untuk mulai animasi. |
+| end        | Titik akhir scroll untuk berhenti animasi. |
+| scrub:true | Menghubungkan progress scroll dengan progress animasi secara halus. |
+| pin:true   | Video akan tetap di posisinya (dipin) selama durasi scroll. |
+
+✅ 4. Tunggu Metadata Video Terload
+videoRef.current.onloadedmetadata = () => {
+  tl.to(videoRef.current, {
+    currentTime: videoRef.current.duration,
+  });
+};
+
+Penjelasan:
+- onloadedmetadata: Event listener yang menunggu durasi dan info video tersedia.
+- tl.to(...): Mengubah properti currentTime dari 0 sampai akhir durasi (simulasi pemutaran video).
+- videoRef.current.duration: Nilai waktu total dari video.
+
+Artinya: scrolling akan menyebabkan video diputar perlahan dari awal ke akhir berdasarkan posisi scroll.
+
+📌 Ringkasan Alur
+1. videoRef disiapkan untuk referensi elemen video.
+2. Nilai start dan end disesuaikan berdasarkan ukuran layar (isMobile).
+3. GSAP timeline dibuat dan dihubungkan dengan scrollTrigger.
+4. Video dipin selama durasi scroll.
+5. Ketika metadata video siap, animasi GSAP to() digunakan untuk memperbesar currentTime hingga akhir.
+
+🚀 Catatan Penting
+- Pastikan ScrollTrigger plugin sudah diimport dan diregister jika menggunakan GSAP modular (gsap.registerPlugin(ScrollTrigger)).
+- Agar video animasi berjalan halus, sebaiknya file video tidak terlalu besar.
+- Elemen <video> sebaiknya memiliki posisi absolut (absolute inset-0) agar tidak mengganggu layout utama.
