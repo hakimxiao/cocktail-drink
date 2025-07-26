@@ -22,7 +22,7 @@ const Cocktails = () => {
         x: 100,
         y: 100,
       });
-  }, []);
+  });
 
   return (
     <section id="cocktails" className="noisy">
@@ -35,7 +35,7 @@ const Cocktails = () => {
 
       <div className="list">
         <div className="popular">
-          <h2>Most Popular Cocktails</h2>
+          <h2>Most Popular Cocktails:</h2>
 
           <ul>
             {cocktailLists.map(({ name, detail, country, price }) => (
@@ -51,6 +51,7 @@ const Cocktails = () => {
             ))}
           </ul>
         </div>
+
         <div className="loved">
           <h2>Most loved mocktails:</h2>
 

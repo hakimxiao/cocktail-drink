@@ -14,7 +14,7 @@ const Hero = () => {
     const heroSplit = new SplitText(".title", {
       type: "chars, words", // kita split dia menjadi chars dan words artinya per huruf
     });
-    const paragraphSPlit = new SplitText(".subtitle", {
+    const paragraphSplit = new SplitText(".subtitle", {
       type: "lines", // kita split dia menjadi lines artinya per baris
     });
 
@@ -27,10 +27,10 @@ const Hero = () => {
       stagger: 0.06, // jeda antar komponen dalam menjalankan animasi
     });
 
-    gsap.from(paragraphSPlit.lines, {
+    gsap.from(paragraphSplit.lines, {
       opacity: 0,
       yPercent: 100,
-      duration1: 1.8,
+      duration: 1.8,
       ease: "expo.out",
       stagger: 0.06, // jeda antar komponen dalam menjalankan animasi
       delay: 1, // jeda sebelum menjalankan animasi
@@ -100,9 +100,9 @@ const Hero = () => {
 
             <div className="view-cocktails">
               <p className="subtitle">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Eveniet culpa ipsum magnam. Consequatur illum esse a fugit.
-                Nobis, similique sed.
+                Every cocktail on our menu is a blend of premium ingredients,
+                creative flair, and timeless recipes — designed to delight your
+                senses.
               </p>
               <a href="#cocktails">View Cocktails</a>
             </div>
@@ -113,10 +113,10 @@ const Hero = () => {
       <div className="video absolute inset-0">
         <video
           ref={videoRef}
-          src="videos/output.mp4"
           muted
           playsInline
           preload="auto"
+          src="videos/output.mp4"
         />
       </div>
     </>
